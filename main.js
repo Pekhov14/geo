@@ -5,7 +5,7 @@ btn.addEventListener("click", function () {
     let latitude  = document.querySelector('[name="latitude"]').value;
     let longitude = document.querySelector('[name="longitude"]').value;
 
-    if (latitude.length == 0 || longitude.length == 0) {
+    if (latitude.length === 0 || longitude.length === 0) {
         document.querySelector(".result")
                 .innerHTML = `Широта и долгота обязательны для заполнения
         `;
