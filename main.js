@@ -1,10 +1,16 @@
 const btn = document.querySelector("button");
-
 const baseUrl = "https://core-carparks-renderer-lots.maps.yandex.net/maps-rdr-carparks/tiles";
 
 btn.addEventListener("click", function () {
-    let latitude = document.querySelector('[name="latitude"]').value;
+    let latitude  = document.querySelector('[name="latitude"]').value;
     let longitude = document.querySelector('[name="longitude"]').value;
+
+    if (latitude.length == 0 || longitude.length == 0) {
+        document.querySelector(".result")
+                .innerHTML = `Широта и долгота обязательны для заполнения
+        `;
+        return;
+    }
 
     let projections = [{
             name: 'wgs84Mercator',
@@ -42,12 +48,10 @@ btn.addEventListener("click", function () {
 
     let url = baseUrl + '?' + (new URLSearchParams(data)).toString();
 
-    let htmlResponse = `
+    document.querySelector(".result").innerHTML = `
         <p> <b>x</b>:${data.x}, <b>y</b>:${data.y}</p>
         <img src="${url}" alt="tail" style="border:3px solid #151515">
     `;
-
-    document.querySelector(".result").innerHTML = htmlResponse;
 });
 
 
