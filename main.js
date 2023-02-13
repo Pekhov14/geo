@@ -1,9 +1,10 @@
 const btn = document.querySelector("button");
 
+const baseUrl = "https://core-carparks-renderer-lots.maps.yandex.net/maps-rdr-carparks/tiles";
+
 btn.addEventListener("click", function () {
     let latitude = document.querySelector('[name="latitude"]').value;
     let longitude = document.querySelector('[name="longitude"]').value;
-
 
     let projections = [{
             name: 'wgs84Mercator',
@@ -30,17 +31,24 @@ btn.addEventListener("click", function () {
     // Посчитаем номер тайла на основе пиксельных координат.
     let tileNumber = fromPixelsToTileNumber(pixelCoords[0], pixelCoords[1]);
 
+    const data = {
+        l: 'carparks',
+        x: tileNumber[0],
+        y: tileNumber[1],
+        z: params.z,
+        scale: 1,
+        lang: 'ru_RU',
+    };
 
-    // Отобразим результат.
-    document.querySelector(".result").innerHTML = "<b>Исходные данные:</b><p>" +
-        "– уровень масштабирования: " + params.z + "<br/>" +
-        "– географические координаты: [" + params.geoCoords[0] +", " + params.geoCoords[1]+ "]" + "<br/>" +
-        "– проекция: '" + params.projection.name + "'</p>" +
-        "<p><b>Результат вычислений:</b></p>"+
-        "<p>Номер тайла: [" + tileNumber[0] + ", " + tileNumber[1] + "]</p>";
+    let url = baseUrl + '?' + (new URLSearchParams(data)).toString();
 
+    let htmlResponse = `
+        <p> <b>x</b>:${data.x}, <b>y</b>:${data.y}</p>
+        <img src="${url}" alt="tail" style="border:3px solid #151515">
+    `;
+
+    document.querySelector(".result").innerHTML = htmlResponse;
 });
-
 
 
 // Функция для перевода географических координат объекта
